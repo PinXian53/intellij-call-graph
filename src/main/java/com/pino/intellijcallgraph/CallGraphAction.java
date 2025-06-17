@@ -23,6 +23,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +38,7 @@ public class CallGraphAction extends AnAction {
 
     @Override
     public @NotNull ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.EDT;
+        return ActionUpdateThread.BGT;
     }
 
     @Override
@@ -49,7 +52,9 @@ public class CallGraphAction extends AnAction {
             return;
         }
 
-
+        var startTime = LocalDateTime.now();
+        var formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        var outputFileName = "CallGraph-" + formatter.format(startTime) + ".txt";
         new Task.Backgroundable(project, "Call graph processing...", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
@@ -87,12 +92,20 @@ public class CallGraphAction extends AnAction {
                     });
                 });
 
-                writeResult(project, UUID.randomUUID() + ".txt", sb.toString());
+                writeResult(project, outputFileName, sb.toString());
             }
 
             @Override
             public void onSuccess() {
-                Messages.showInfoMessage(project, "Processing completed.", "Completed");
+                var endTime = LocalDateTime.now();
+                var duration = Duration.between(startTime, endTime);
+
+                long hours = duration.toHours();
+                long minutes = duration.toMinutes() % 60;
+                long seconds = duration.getSeconds() % 60;
+
+                var spendTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                Messages.showInfoMessage(project, "Processing completed.\nSpend time: " + spendTime + ".\nOutput: " + outputFileName, "Completed");
             }
 
             @Override

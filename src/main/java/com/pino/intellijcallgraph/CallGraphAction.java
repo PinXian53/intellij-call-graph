@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
@@ -59,36 +60,40 @@ public class CallGraphAction extends AnAction {
         new Task.Backgroundable(project, "Call graph processing...", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                indicator.setIndeterminate(false);
+                var sb = new StringBuilder();
+                ApplicationManager.getApplication().runReadAction(()->{
+                    indicator.setIndeterminate(false);
 
-                var javaFiles = collectJavaFiles(selectedFile);
+                    var javaFiles = collectJavaFiles(selectedFile);
 
-                if (javaFiles.isEmpty()) {
-                    Messages.showWarningDialog(project, "Java files not found.", "Warn");
-                    return;
-                }
-
-                var callGraphList = new ArrayList<CallGraph>();
-                var total = javaFiles.size();
-                for (int i = 0; i < total; i++) {
-                    if (indicator.isCanceled()) {
+                    if (javaFiles.isEmpty()) {
+                        Messages.showWarningDialog(project, "Java files not found.", "Warn");
                         return;
                     }
-                    indicator.setFraction((double) i / total); // 設定目前進度
-                    indicator.setText("Call graph processing(" + (i + 1) + "/" + total + ")..."); // 顯示文字訊息
 
-                    var javaFile = javaFiles.get(i);
-                    callGraphList.addAll(generateCallGraph(project, javaFile));
-                }
-                var sb = new StringBuilder();
-                callGraphList.forEach(callGraph -> {
-                    var callee = callGraph.getCallee();
-                    callGraph.getCallers().forEach(caller ->{
-                        sb.append(caller.getClassQualifiedName()).append(".").append(caller.getMethodSignature())
-                                .append(" -> ")
-                                .append(callee.getClassQualifiedName()).append(".").append(callee.getMethodSignature()).append("\n");
+                    var callGraphList = new ArrayList<CallGraph>();
+                    var total = javaFiles.size();
+                    for (int i = 0; i < total; i++) {
+                        if (indicator.isCanceled()) {
+                            return;
+                        }
+                        indicator.setFraction((double) i / total); // 設定目前進度
+                        indicator.setText("Call graph processing(" + (i + 1) + "/" + total + ")..."); // 顯示文字訊息
+
+                        var javaFile = javaFiles.get(i);
+                        callGraphList.addAll(generateCallGraph(project, javaFile));
+                    }
+
+                    callGraphList.forEach(callGraph -> {
+                        var callee = callGraph.getCallee();
+                        callGraph.getCallers().forEach(caller ->{
+                            sb.append(caller.getClassQualifiedName()).append(".").append(caller.getMethodSignature())
+                                    .append(" -> ")
+                                    .append(callee.getClassQualifiedName()).append(".").append(callee.getMethodSignature()).append("\n");
+                        });
                     });
                 });
+
                 writeResult(project, UUID.randomUUID() + ".txt", sb.toString());
             }
 

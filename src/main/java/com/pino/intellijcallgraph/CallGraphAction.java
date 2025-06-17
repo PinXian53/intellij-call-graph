@@ -30,13 +30,6 @@ public class CallGraphAction extends AnAction {
 
     @Override
     public void update(AnActionEvent e) {
-        var file = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        var isVisible = false;
-
-        if (file != null) {
-            isVisible = file.isDirectory() || isJavaFile(file);
-        }
-
         e.getPresentation().setEnabledAndVisible(true);
     }
 
@@ -61,7 +54,7 @@ public class CallGraphAction extends AnAction {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 var sb = new StringBuilder();
-                ApplicationManager.getApplication().runReadAction(()->{
+                ApplicationManager.getApplication().runReadAction(() -> {
                     indicator.setIndeterminate(false);
 
                     var javaFiles = collectJavaFiles(selectedFile);
@@ -86,7 +79,7 @@ public class CallGraphAction extends AnAction {
 
                     callGraphList.forEach(callGraph -> {
                         var callee = callGraph.getCallee();
-                        callGraph.getCallers().forEach(caller ->{
+                        callGraph.getCallers().forEach(caller -> {
                             sb.append(caller.getClassQualifiedName()).append(".").append(caller.getMethodSignature())
                                     .append(" -> ")
                                     .append(callee.getClassQualifiedName()).append(".").append(callee.getMethodSignature()).append("\n");
@@ -198,7 +191,7 @@ public class CallGraphAction extends AnAction {
         return methodName + "(" + params + ")";
     }
 
-    private void writeResult(Project project, String fileName, String content){
+    private void writeResult(Project project, String fileName, String content) {
         VirtualFile baseDir = project.getBaseDir();
         WriteCommandAction.runWriteCommandAction(project, () -> {
             try {

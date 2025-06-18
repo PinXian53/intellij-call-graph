@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
@@ -21,8 +20,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -58,7 +58,6 @@ public class CallGraphAction extends AnAction {
         new Task.Backgroundable(project, "Call graph processing...", false) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                var sb = new StringBuilder();
                 ApplicationManager.getApplication().runReadAction(() -> {
                     indicator.setIndeterminate(false);
 
@@ -69,7 +68,6 @@ public class CallGraphAction extends AnAction {
                         return;
                     }
 
-                    var callGraphList = new ArrayList<CallGraph>();
                     var total = javaFiles.size();
                     for (int i = 0; i < total; i++) {
                         if (indicator.isCanceled()) {
@@ -79,20 +77,21 @@ public class CallGraphAction extends AnAction {
                         indicator.setText("Call graph processing(" + (i + 1) + "/" + total + ")..."); // 顯示文字訊息
 
                         var javaFile = javaFiles.get(i);
-                        callGraphList.addAll(generateCallGraph(project, javaFile));
-                    }
+                        var callGraphList = generateCallGraph(project, javaFile);
 
-                    callGraphList.forEach(callGraph -> {
-                        var callee = callGraph.getCallee();
-                        callGraph.getCallers().forEach(caller -> {
-                            sb.append(caller.getClassQualifiedName()).append(".").append(caller.getMethodSignature())
-                                    .append(" -> ")
-                                    .append(callee.getClassQualifiedName()).append(".").append(callee.getMethodSignature()).append("\n");
+                        var sb = new StringBuilder();
+                        callGraphList.forEach(callGraph -> {
+                            var callee = callGraph.getCallee();
+                            callGraph.getCallers().forEach(caller -> {
+                                sb.append(caller.getClassQualifiedName()).append(".").append(caller.getMethodSignature())
+                                        .append(" -> ")
+                                        .append(callee.getClassQualifiedName()).append(".").append(callee.getMethodSignature()).append("\n");
+                            });
                         });
-                    });
+                        var baseDir = project.getBaseDir().toNioPath().toString();
+                        writeResult(baseDir, outputFileName, sb.toString());
+                    }
                 });
-
-                writeResult(project, outputFileName, sb.toString());
             }
 
             @Override
@@ -204,21 +203,18 @@ public class CallGraphAction extends AnAction {
         return methodName + "(" + params + ")";
     }
 
-    private void writeResult(Project project, String fileName, String content) {
-        VirtualFile baseDir = project.getBaseDir();
-        WriteCommandAction.runWriteCommandAction(project, () -> {
-            try {
-                VirtualFile existing = baseDir.findChild(fileName);
-                if (existing != null) {
-                    existing.setBinaryContent(content.getBytes(StandardCharsets.UTF_8));
-                } else {
-                    baseDir.createChildData(null, fileName)
-                            .setBinaryContent(content.getBytes(StandardCharsets.UTF_8));
-                }
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+    private void writeResult(String folderPath, String fileName, String content) {
+        if (content.isBlank()){
+            return;
+        }
+       var filePath = Path.of(folderPath, fileName);
+        try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath.toFile(), true), StandardCharsets.UTF_8);
+             BufferedWriter bw = new BufferedWriter(osw);
+             PrintWriter pw = new PrintWriter(bw)) {
+            pw.println(content);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @NoArgsConstructor

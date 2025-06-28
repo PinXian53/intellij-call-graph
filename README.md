@@ -22,4 +22,4 @@ Easily export analyzed data for further processing in Excel, scripts, or custom 
 Generate Cypher queries to import method relationships into a Neo4j graph database for rich visual analysis and graph-based querying.
 
 ### ⚙️ Simple to Use
-Just select the folder or file you want to analyze in the Project View, then right-click and choose "Export Call Graph" – select your preferred output format.
+In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Method Relations"</b>. Then, select your preferred output format.

@@ -14,8 +14,45 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    This is a development tool.
-    This is a development tool.
+<b>Call Graph</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships.
+It helps developers and architects better understand the structure and dependencies within their codebase.
+
+<h2>Features</h2>
+<h3>🔗 Analyze Method Call Relationships</h3>
+Automatically detects and maps which methods call which, across your entire project.
+
+<h3>📄 Export to CSV</h3>
+Easily export analyzed data for further processing in Excel, scripts, or custom analysis tools.
+
+<h3>🌐 Export to Cypher (Neo4j)</h3>
+Generate Cypher queries to import method relationships into a Neo4j graph database for rich visual analysis and graph-based querying.
+
+<h3>⚙️ Simple to Use</h3>
+In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Method Relations"</b>. Then, select your preferred output format.
+
+
+<h2>Output Format Examples</h2>
+The plugin supports exporting method relationships in two formats: CSV and Cypher.
+
+<h3>📄 CSV Output</h3>
+The CSV file contains information about caller and callee methods, making it easy to analyze dependencies in spreadsheet applications or custom scripts.<br/>
+• Example:
+<pre style="border: 1px solid black;">
+caller_short_name,caller_full_name,callee_short_name,callee_full_name
+"MethodUtils.getFullName","com.pino.intellijcallgraph.utils.MethodUtils.getFullName(Method)","Method.getClassQualifiedName","com.pino.intellijcallgraph.model.Method.getClassQualifiedName()"
+"MethodUtils.getShortName","com.pino.intellijcallgraph.utils.MethodUtils.getShortName(Method)","Method.getClassName","com.pino.intellijcallgraph.model.Method.getClassName()"
+</pre>
+
+<h3>🌐 Cypher Output (Neo4j)</h3>
+The Cypher output includes syntax to create relationships in Neo4j. <br/>
+• Example:
+<pre style="border: 1px solid black;">
+MERGE (a:method {short_name: "MethodUtils.getFullName", full_name: "com.pino.intellijcallgraph.utils.MethodUtils.getFullName(Method)"}) MERGE (b:method {short_name: "Method.getClassQualifiedName", full_name: "com.pino.intellijcallgraph.model.Method.getClassQualifiedName()"}) MERGE (a)-[:call_method]-&gt;(b);
+MERGE (a:method {short_name: "MethodUtils.getShortName", full_name: "com.pino.intellijcallgraph.utils.MethodUtils.getShortName(Method)"}) MERGE (b:method {short_name: "Method.getClassName", full_name: "com.pino.intellijcallgraph.model.Method.getClassName()"}) MERGE (a)-[:call_method]-&gt;(b);
+</pre>
+
+After importing into Neo4j, the method call relationships will appear as shown below: <br/>
+<img src="https://raw.githubusercontent.com/PinXian53/intellij-call-graph/main/pic/neo4j.png" alt="neo4j.png" />
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.

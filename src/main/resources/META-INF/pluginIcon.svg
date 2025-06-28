@@ -1,12 +1,26 @@
-<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M32.0845 7.94025V4H24.0203V7.9896H16.029V4H7.91553V7.94025H4V36H16.0044V32.0045C16.0058 30.9457 16.4274 29.9308 17.1766 29.1826C17.9258 28.4345 18.9412 28.0143 20 28.0143C21.0588 28.0143 22.0743 28.4345 22.8234 29.1826C23.5726 29.9308 23.9942 30.9457 23.9956 32.0045V36H36V7.94025H32.0845Z"
-          fill="url(#paint0_linear)"/>
+<svg width="40" height="40" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 中心圓圈（Caller） -->
+    <circle cx="3.3" cy="7" r="2.5" fill="#4CAF50" stroke="#2E7D32" stroke-width="0.8"/>
+
+    <!-- 右上圓圈（Callee 1） -->
+    <circle cx="10" cy="2.5" r="1.5" fill="#2196F3" stroke="#1565C0" stroke-width="0.6"/>
+    <line x1="6" y1="5.2" x2="7.7" y2="4" stroke="#555" stroke-width="0.4" marker-end="url(#arrow)"/>
+
+    <!-- 右中圓圈（Callee 2） -->
+    <circle cx="12" cy="7" r="1.5" fill="#FF9800" stroke="#EF6C00" stroke-width="0.6"/>
+    <line x1="7" y1="7" x2="9.4" y2="7" stroke="#555" stroke-width="0.4" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
+
+    <!-- 右下圓圈（Callee 3） -->
+    <circle cx="10" cy="11.7" r="1.5" fill="#E91E63" stroke="#AD1457" stroke-width="0.6"/>
+    <line x1="6.3" y1="9.2" x2="8.3" y2="10.5" stroke="#555" stroke-width="0.4" marker-start="url(#arrow-rev)"/>
+
+    <!-- 定義箭頭樣式 -->
     <defs>
-        <linearGradient id="paint0_linear" x1="2.94192" y1="4.89955" x2="37.7772" y2="39.7345"
-                        gradientUnits="userSpaceOnUse">
-            <stop offset="0.15937" stop-color="#3BEA62"/>
-            <stop offset="0.5404" stop-color="#3C99CC"/>
-            <stop offset="0.93739" stop-color="#6B57FF"/>
-        </linearGradient>
+        <marker id="arrow" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L3,1.5 L0,3 Z" fill="#555" />
+        </marker>
+        <marker id="arrow-rev" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L3,1.5 L0,3 Z" fill="#555" />
+        </marker>
     </defs>
 </svg>

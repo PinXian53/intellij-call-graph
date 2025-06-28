@@ -51,7 +51,7 @@ public abstract class BaseCodeTraceAction extends AnAction {
         }
 
         final var startTime = LocalDateTime.now();
-        final var baseDir = project.getBaseDir().toNioPath().toString();
+        final var baseDir = project.getBasePath();
         final var outputFileName = getOutputFileName(startTime);
         final var outputFilePath = Path.of(baseDir, outputFileName);
 

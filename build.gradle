@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.pino"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -34,7 +34,6 @@ tasks {
     patchPluginXml {
         sinceBuild.set("222")
         untilBuild.set("251.*")
-        //untilBuild.set("242.*")
     }
 
     signPlugin {

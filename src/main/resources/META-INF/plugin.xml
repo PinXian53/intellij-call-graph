@@ -30,10 +30,22 @@
 
     </extensions>
     <actions>
-        <action id="com.pino.intellijcallgraph.CallGraphAction" class="com.pino.intellijcallgraph.CallGraphAction"
-                text="Generate Call Graph"
-                icon="/icons/actionIcon.svg">
+        <group id="CallGraphActionGroup"
+               text="Export Call Graph"
+               icon="/icons/actionIcon.svg"
+               popup="true">
+            <action id="com.pino.intellijcallgraph.action.CsvCallGraphAction"
+                    class="com.pino.intellijcallgraph.action.CsvCallGraphAction"
+                    text="Export Call Graph (CSV)"
+                    icon="/icons/actionIcon.svg">
+            </action>
+            <action id="com.pino.intellijcallgraph.action.CypherCallGraphAction"
+                    class="com.pino.intellijcallgraph.action.CypherCallGraphAction"
+                    text="Export Call Graph (Cypher)"
+                    icon="/icons/actionIcon.svg">
+            </action>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-        </action>
+        </group>
+
     </actions>
 </idea-plugin>

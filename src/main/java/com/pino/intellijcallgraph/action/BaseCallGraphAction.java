@@ -1,0 +1,125 @@
+package com.pino.intellijcallgraph.action;
+
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.Task;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiMethod;
+import com.pino.intellijcallgraph.model.CallGraph;
+import com.pino.intellijcallgraph.model.Method;
+import com.pino.intellijcallgraph.utils.JavaUtils;
+import com.pino.intellijcallgraph.utils.PsiMethodUtils;
+import com.pino.intellijcallgraph.utils.TimeUtils;
+import org.jetbrains.annotations.NotNull;
+
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.List;
+
+public abstract class BaseCallGraphAction extends AnAction {
+
+    abstract String getOutputFileName(LocalDateTime startTime);
+
+    abstract void writeOutputFile(List<CallGraph> callGraphList, Path outputFilePath);
+
+    @Override
+    public void update(AnActionEvent e) {
+        e.getPresentation().setEnabledAndVisible(true);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+
+    @Override
+    public void actionPerformed(@NotNull AnActionEvent e) {
+
+        var project = e.getProject();
+        var selectedFiles = e.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
+
+        if (selectedFiles == null || selectedFiles.length == 0) {
+            Messages.showErrorDialog(project, "No file or folder selected", "Error");
+            return;
+        }
+
+        final var startTime = LocalDateTime.now();
+        final var baseDir = project.getBaseDir().toNioPath().toString();
+        final var outputFileName = getOutputFileName(startTime);
+        final var outputFilePath = Path.of(baseDir, outputFileName);
+
+        new Task.Backgroundable(project, "Call graph processing...", true) {
+            @Override
+            public void run(@NotNull ProgressIndicator indicator) {
+                ApplicationManager.getApplication().runReadAction(() -> {
+                    indicator.setIndeterminate(false);
+
+                    var javaFiles = JavaUtils.collectJavaFiles(selectedFiles);
+                    if (javaFiles.isEmpty()) {
+                        Messages.showWarningDialog(project, "Java files not found.", "Warn");
+                        return;
+                    }
+
+                    var total = javaFiles.size();
+                    for (int i = 0; i < total; i++) {
+                        if (indicator.isCanceled()) {
+                            return;
+                        }
+                        indicator.setFraction((double) i / total);
+                        indicator.setText("Call graph processing(" + (i + 1) + "/" + total + ")...");
+
+                        var javaFile = javaFiles.get(i);
+                        var callGraphList = generateCallGraph(project, javaFile);
+                        writeOutputFile(callGraphList, outputFilePath);
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+                var endTime = LocalDateTime.now();
+                var spendTime = TimeUtils.getSpendTime(startTime, endTime);
+                Messages.showInfoMessage(project, "Processing completed.\nSpend time: " + spendTime + ".\nOutput: " + outputFileName, "Completed");
+            }
+
+            @Override
+            public void onThrowable(@NotNull Throwable error) {
+                Messages.showErrorDialog(project, "Error: " + error.getMessage(), "Error");
+            }
+        }.queue();
+    }
+
+    private List<CallGraph> generateCallGraph(Project project, VirtualFile virtualFile) {
+        var methods = PsiMethodUtils.findAllMethods(project, virtualFile);
+        return methods.stream().map(method -> {
+            var callee = toMethod(method);
+            var callers = PsiMethodUtils.findAllCallers(method);
+            return CallGraph.builder()
+                    .callee(callee)
+                    .callers(toMethod(callers))
+                    .build();
+        }).toList();
+    }
+
+    private List<Method> toMethod(List<PsiMethod> psiMethods) {
+        return psiMethods.stream().map(this::toMethod).toList();
+    }
+
+    private Method toMethod(PsiMethod psiMethod) {
+        var methodSignature = PsiMethodUtils.getMethodSignature(psiMethod);
+        var callerClazz = psiMethod.getContainingClass();
+        return Method.builder()
+                .classQualifiedName(callerClazz.getQualifiedName())
+                .className(callerClazz.getName())
+                .methodSignature(methodSignature)
+                .methodName(psiMethod.getName())
+                .build();
+    }
+
+}

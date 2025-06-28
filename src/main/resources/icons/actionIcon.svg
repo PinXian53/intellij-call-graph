@@ -1,8 +1,26 @@
-<svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 中心圓圈（Caller） -->
+    <circle cx="3.3" cy="7" r="2.5" fill="#4CAF50" stroke="#2E7D32" stroke-width="0.8"/>
 
-    <g>
-        <title>Layer 1</title>
-        <circle cx="7" cy="7" r="7" fill="#FF60AF"/>
-        <text stroke="#000" font-weight="bold" xml:space="preserve" text-anchor="start" font-family="'Arial'" font-size="11" stroke-width="0" id="svg_2" y="11.2" x="3" fill="#FFFFFF">C</text>
-    </g>
+    <!-- 右上圓圈（Callee 1） -->
+    <circle cx="10" cy="2.5" r="1.5" fill="#2196F3" stroke="#1565C0" stroke-width="0.6"/>
+    <line x1="6" y1="5.2" x2="7.7" y2="4" stroke="#555" stroke-width="0.4" marker-end="url(#arrow)"/>
+
+    <!-- 右中圓圈（Callee 2） -->
+    <circle cx="12" cy="7" r="1.5" fill="#FF9800" stroke="#EF6C00" stroke-width="0.6"/>
+    <line x1="7" y1="7" x2="9.4" y2="7" stroke="#555" stroke-width="0.4" marker-start="url(#arrow-rev)" marker-end="url(#arrow)"/>
+
+    <!-- 右下圓圈（Callee 3） -->
+    <circle cx="10" cy="11.7" r="1.5" fill="#E91E63" stroke="#AD1457" stroke-width="0.6"/>
+    <line x1="6.3" y1="9.2" x2="8.3" y2="10.5" stroke="#555" stroke-width="0.4" marker-start="url(#arrow-rev)"/>
+
+    <!-- 定義箭頭樣式 -->
+    <defs>
+        <marker id="arrow" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L3,1.5 L0,3 Z" fill="#555" />
+        </marker>
+        <marker id="arrow-rev" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L3,1.5 L0,3 Z" fill="#555" />
+        </marker>
+    </defs>
 </svg>

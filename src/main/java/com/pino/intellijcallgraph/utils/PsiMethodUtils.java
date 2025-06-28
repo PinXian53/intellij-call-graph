@@ -25,7 +25,7 @@ public class PsiMethodUtils {
         var params = Arrays.stream(parameters)
                 .map(p -> {
                     var type = p.getType();
-                    // 取得簡短型別名稱（例如 java.lang.String -> String）
+                    // get the short type name（ex: java.lang.String -> String）
                     return type.getPresentableText();
                 })
                 .collect(Collectors.joining(", "));

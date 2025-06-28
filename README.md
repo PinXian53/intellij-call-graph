@@ -4,11 +4,11 @@
     </a>
 </div>
 
-<h1 align="center">Intellij Call Graph</h1>
+<h1 align="center">Intellij Code Trace</h1>
 
 <br>
 
-<b>Intellij Call Graph</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships. 
+<b>Intellij Code Trace</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships. 
 It helps developers and architects better understand the structure and dependencies within their codebase.
 
 ## Features

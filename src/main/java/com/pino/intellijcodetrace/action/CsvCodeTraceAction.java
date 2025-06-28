@@ -18,11 +18,11 @@ public class CsvCodeTraceAction extends BaseCodeTraceAction {
     }
 
     @Override
-    void writeOutputFile(List<CodeTrace> callTraceList, Path outputFilePath) {
+    void writeOutputFile(List<CodeTrace> codeTraceList, Path outputFilePath) {
         var outputContent = new StringBuilder();
-        callTraceList.forEach(callTrace -> {
-            var callee = callTrace.getCallee();
-            callTrace.getCallers().forEach(caller -> {
+        codeTraceList.forEach(codeTrace -> {
+            var callee = codeTrace.getCallee();
+            codeTrace.getCallers().forEach(caller -> {
                 var line = "%s,%s,%s,%s".formatted(
                         toSafeCsvString(MethodUtils.getShortName(caller)),
                         toSafeCsvString(MethodUtils.getFullName(caller)),

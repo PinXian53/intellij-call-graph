@@ -52,7 +52,7 @@ MERGE (a:method {short_name: "MethodUtils.getShortName", full_name: "com.pino.in
 </pre>
 
 After importing into Neo4j, the method call relationships will appear as shown below: <br/>
-<img src="https://raw.githubusercontent.com/PinXian53/intellij-call-graph/main/pic/neo4j.png" alt="neo4j.png" />
+<img src="https://raw.githubusercontent.com/PinXian53/intellij-code-trace/main/pic/neo4j.png" alt="neo4j.png" />
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.

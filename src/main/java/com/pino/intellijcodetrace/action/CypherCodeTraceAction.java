@@ -18,11 +18,11 @@ public class CypherCodeTraceAction extends BaseCodeTraceAction {
     }
 
     @Override
-    void writeOutputFile(List<CodeTrace> callTraceList, Path outputFilePath) {
+    void writeOutputFile(List<CodeTrace> codeTraceList, Path outputFilePath) {
         var outputContent = new StringBuilder();
-        callTraceList.forEach(callTrace -> {
-            var callee = callTrace.getCallee();
-            callTrace.getCallers().forEach(caller -> {
+        codeTraceList.forEach(codeTrace -> {
+            var callee = codeTrace.getCallee();
+            codeTrace.getCallers().forEach(caller -> {
                 var line = "MERGE (a:method {short_name: \"%s\", full_name: \"%s\"}) MERGE (b:method {short_name: \"%s\", full_name: \"%s\"}) MERGE (a)-[:call_method]->(b);".formatted(
                         MethodUtils.getShortName(caller),
                         MethodUtils.getFullName(caller),

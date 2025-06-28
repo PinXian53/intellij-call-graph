@@ -27,7 +27,7 @@ public abstract class BaseCodeTraceAction extends AnAction {
 
     abstract String getOutputFileName(LocalDateTime startTime);
 
-    abstract void writeOutputFile(List<CodeTrace> callTraceList, Path outputFilePath);
+    abstract void writeOutputFile(List<CodeTrace> codeTraceList, Path outputFilePath);
 
     @Override
     public void update(AnActionEvent e) {
@@ -55,7 +55,7 @@ public abstract class BaseCodeTraceAction extends AnAction {
         final var outputFileName = getOutputFileName(startTime);
         final var outputFilePath = Path.of(baseDir, outputFileName);
 
-        new Task.Backgroundable(project, "Call graph processing...", true) {
+        new Task.Backgroundable(project, "Code trace processing...", true) {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 ApplicationManager.getApplication().runReadAction(() -> {
@@ -73,11 +73,11 @@ public abstract class BaseCodeTraceAction extends AnAction {
                             return;
                         }
                         indicator.setFraction((double) i / total);
-                        indicator.setText("Call graph processing(" + (i + 1) + "/" + total + ")...");
+                        indicator.setText("Code trace processing(" + (i + 1) + "/" + total + ")...");
 
                         var javaFile = javaFiles.get(i);
-                        var callGraphList = generateCallGraph(project, javaFile);
-                        writeOutputFile(callGraphList, outputFilePath);
+                        var codeTraceList = generateCodeTrace(project, javaFile);
+                        writeOutputFile(codeTraceList, outputFilePath);
                     }
                 });
             }
@@ -97,7 +97,7 @@ public abstract class BaseCodeTraceAction extends AnAction {
         }.queue();
     }
 
-    private List<CodeTrace> generateCallGraph(Project project, VirtualFile virtualFile) {
+    private List<CodeTrace> generateCodeTrace(Project project, VirtualFile virtualFile) {
         var methods = PsiMethodUtils.findAllMethods(project, virtualFile);
         return methods.stream().map(method -> {
             var callee = toMethod(method);

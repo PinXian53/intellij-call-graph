@@ -10,6 +10,7 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiMethod;
 import com.pino.intellijcallgraph.model.CallGraph;
 import com.pino.intellijcallgraph.model.Method;
@@ -83,6 +84,7 @@ public abstract class BaseCallGraphAction extends AnAction {
 
             @Override
             public void onSuccess() {
+                VirtualFileManager.getInstance().syncRefresh();
                 var endTime = LocalDateTime.now();
                 var spendTime = TimeUtils.getSpendTime(startTime, endTime);
                 Messages.showInfoMessage(project, "Processing completed.\nSpend time: " + spendTime + ".\nOutput: " + outputFileName, "Completed");

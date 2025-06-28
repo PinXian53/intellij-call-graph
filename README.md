@@ -1,12 +1,20 @@
 <div align="center">
-    <a href="">
+    <a href="https://plugins.jetbrains.com/plugin/27772-code-trace">
         <img src="./src/main/resources/META-INF/pluginIcon.svg" width="280" height="280" alt="logo"/>
     </a>
 </div>
 
 <h1 align="center">Intellij Code Trace</h1>
 
+<p align="center">
+<a href="https://plugins.jetbrains.com/plugin/27772-code-trace"><img src="https://img.shields.io/jetbrains/plugin/r/stars/27772?style=flat-square"></a>
+<a href="https://plugins.jetbrains.com/plugin/27772-code-trace"><img src="https://img.shields.io/jetbrains/plugin/d/27772-code-trace.svg?style=flat-square"></a>
+<a href="https://plugins.jetbrains.com/plugin/27772-code-trace"><img src="https://img.shields.io/jetbrains/plugin/v/27772-code-trace.svg?style=flat-square"></a>
+</p>
+
 <br>
+
+> Jetbrains Marketplace: https://plugins.jetbrains.com/plugin/27772-code-trace
 
 <b>Intellij Code Trace</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships. 
 It helps developers and architects better understand the structure and dependencies within their codebase.

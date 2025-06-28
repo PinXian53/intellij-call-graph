@@ -1,28 +1,28 @@
-package com.pino.intellijcallgraph.action;
+package com.pino.intellijcodetrace.action;
 
-import com.pino.intellijcallgraph.model.CallGraph;
-import com.pino.intellijcallgraph.utils.FileUtils;
-import com.pino.intellijcallgraph.utils.MethodUtils;
+import com.pino.intellijcodetrace.model.CodeTrace;
+import com.pino.intellijcodetrace.utils.FileUtils;
+import com.pino.intellijcodetrace.utils.MethodUtils;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class CsvCallGraphAction extends BaseCallGraphAction {
+public class CsvCodeTraceAction extends BaseCodeTraceAction {
 
     @Override
     String getOutputFileName(LocalDateTime startTime) {
         var timeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        return "CallGraph-" + timeFormatter.format(startTime) + ".csv";
+        return "CodeTrace-" + timeFormatter.format(startTime) + ".csv";
     }
 
     @Override
-    void writeOutputFile(List<CallGraph> callGraphList, Path outputFilePath) {
+    void writeOutputFile(List<CodeTrace> callTraceList, Path outputFilePath) {
         var outputContent = new StringBuilder();
-        callGraphList.forEach(callGraph -> {
-            var callee = callGraph.getCallee();
-            callGraph.getCallers().forEach(caller -> {
+        callTraceList.forEach(callTrace -> {
+            var callee = callTrace.getCallee();
+            callTrace.getCallers().forEach(caller -> {
                 var line = "%s,%s,%s,%s".formatted(
                         toSafeCsvString(MethodUtils.getShortName(caller)),
                         toSafeCsvString(MethodUtils.getFullName(caller)),

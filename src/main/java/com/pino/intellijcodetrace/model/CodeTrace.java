@@ -1,4 +1,4 @@
-package com.pino.intellijcallgraph.model;
+package com.pino.intellijcodetrace.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class CallGraph {
+public class CodeTrace {
     private List<Method> callers;
     private Method callee;
 }

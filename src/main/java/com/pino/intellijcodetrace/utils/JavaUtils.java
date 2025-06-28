@@ -1,4 +1,4 @@
-package com.pino.intellijcallgraph.utils;
+package com.pino.intellijcodetrace.utils;
 
 import com.intellij.openapi.vfs.VirtualFile;
 

@@ -1,6 +1,6 @@
-package com.pino.intellijcallgraph.utils;
+package com.pino.intellijcodetrace.utils;
 
-import com.pino.intellijcallgraph.model.Method;
+import com.pino.intellijcodetrace.model.Method;
 
 public class MethodUtils {
 

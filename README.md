@@ -22,7 +22,7 @@ Easily export analyzed data for further processing in Excel, scripts, or custom 
 Generate Cypher queries to import method relationships into a Neo4j graph database for rich visual analysis and graph-based querying.
 
 ### ⚙️ Simple to Use
-In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Method Relations"</b>. Then, select your preferred output format.
+In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Code Trace"</b>. Then, select your preferred output format.
 
 ## Output Format Examples
 The plugin supports exporting method relationships in two formats: CSV and Cypher.
@@ -32,16 +32,16 @@ The CSV file contains information about caller and callee methods, making it eas
 - Example:
     ```csv
     caller_short_name,caller_full_name,callee_short_name,callee_full_name
-    "MethodUtils.getFullName","com.pino.intellijcallgraph.utils.MethodUtils.getFullName(Method)","Method.getClassQualifiedName","com.pino.intellijcallgraph.model.Method.getClassQualifiedName()"
-    "MethodUtils.getShortName","com.pino.intellijcallgraph.utils.MethodUtils.getShortName(Method)","Method.getClassName","com.pino.intellijcallgraph.model.Method.getClassName()"
+    "MethodUtils.getFullName","com.pino.intellijcodetrace.utils.MethodUtils.getFullName(Method)","Method.getClassQualifiedName","com.pino.intellijcodetrace.model.Method.getClassQualifiedName()"
+    "MethodUtils.getShortName","com.pino.intellijcodetrace.utils.MethodUtils.getShortName(Method)","Method.getClassName","com.pino.intellijcodetrace.model.Method.getClassName()"
     ```
 
 ### 🌐 Cypher Output (Neo4j)
 The Cypher output includes syntax to create relationships in Neo4j. <br/>
 - Example:
     ```cypher
-    MERGE (a:method {short_name: "MethodUtils.getFullName", full_name: "com.pino.intellijcallgraph.utils.MethodUtils.getFullName(Method)"}) MERGE (b:method {short_name: "Method.getClassQualifiedName", full_name: "com.pino.intellijcallgraph.model.Method.getClassQualifiedName()"}) MERGE (a)-[:call_method]->(b);
-    MERGE (a:method {short_name: "MethodUtils.getShortName", full_name: "com.pino.intellijcallgraph.utils.MethodUtils.getShortName(Method)"}) MERGE (b:method {short_name: "Method.getClassName", full_name: "com.pino.intellijcallgraph.model.Method.getClassName()"}) MERGE (a)-[:call_method]->(b);
+    MERGE (a:method {short_name: "MethodUtils.getFullName", full_name: "com.pino.intellijcodetrace.utils.MethodUtils.getFullName(Method)"}) MERGE (b:method {short_name: "Method.getClassQualifiedName", full_name: "com.pino.intellijcodetrace.model.Method.getClassQualifiedName()"}) MERGE (a)-[:call_method]->(b);
+    MERGE (a:method {short_name: "MethodUtils.getShortName", full_name: "com.pino.intellijcodetrace.utils.MethodUtils.getShortName(Method)"}) MERGE (b:method {short_name: "Method.getClassName", full_name: "com.pino.intellijcodetrace.model.Method.getClassName()"}) MERGE (a)-[:call_method]->(b);
     ```
 
 After importing into Neo4j, the method call relationships will appear as shown below: <br/>

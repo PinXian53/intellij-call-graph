@@ -1,4 +1,4 @@
-package com.pino.intellijcallgraph.model;
+package com.pino.intellijcodetrace.model;
 
 import lombok.Builder;
 import lombok.Data;

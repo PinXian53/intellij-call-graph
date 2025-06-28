@@ -1,4 +1,4 @@
-package com.pino.intellijcallgraph.action;
+package com.pino.intellijcodetrace.action;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -12,22 +12,22 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiMethod;
-import com.pino.intellijcallgraph.model.CallGraph;
-import com.pino.intellijcallgraph.model.Method;
-import com.pino.intellijcallgraph.utils.JavaUtils;
-import com.pino.intellijcallgraph.utils.PsiMethodUtils;
-import com.pino.intellijcallgraph.utils.TimeUtils;
+import com.pino.intellijcodetrace.model.CodeTrace;
+import com.pino.intellijcodetrace.model.Method;
+import com.pino.intellijcodetrace.utils.JavaUtils;
+import com.pino.intellijcodetrace.utils.PsiMethodUtils;
+import com.pino.intellijcodetrace.utils.TimeUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public abstract class BaseCallGraphAction extends AnAction {
+public abstract class BaseCodeTraceAction extends AnAction {
 
     abstract String getOutputFileName(LocalDateTime startTime);
 
-    abstract void writeOutputFile(List<CallGraph> callGraphList, Path outputFilePath);
+    abstract void writeOutputFile(List<CodeTrace> callTraceList, Path outputFilePath);
 
     @Override
     public void update(AnActionEvent e) {
@@ -97,12 +97,12 @@ public abstract class BaseCallGraphAction extends AnAction {
         }.queue();
     }
 
-    private List<CallGraph> generateCallGraph(Project project, VirtualFile virtualFile) {
+    private List<CodeTrace> generateCallGraph(Project project, VirtualFile virtualFile) {
         var methods = PsiMethodUtils.findAllMethods(project, virtualFile);
         return methods.stream().map(method -> {
             var callee = toMethod(method);
             var callers = PsiMethodUtils.findAllCallers(method);
-            return CallGraph.builder()
+            return CodeTrace.builder()
                     .callee(callee)
                     .callers(toMethod(callers))
                     .build();

@@ -5,10 +5,12 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiMethod;
@@ -87,6 +89,10 @@ public abstract class BaseCodeTraceAction extends AnAction {
                 VirtualFileManager.getInstance().syncRefresh();
                 var endTime = LocalDateTime.now();
                 var spendTime = TimeUtils.getSpendTime(startTime, endTime);
+                var file = LocalFileSystem.getInstance().findFileByIoFile(outputFilePath.toFile());
+                if (file != null) {
+                    FileEditorManager.getInstance(project).openFile(file, true);
+                }
                 Messages.showInfoMessage(project, "Processing completed.\nSpend time: " + spendTime + ".\nOutput: " + outputFileName, "Completed");
             }
 

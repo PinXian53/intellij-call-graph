@@ -64,7 +64,12 @@ After importing into Neo4j, the method call relationships will appear as shown b
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <!-- Settings -->
+        <applicationService serviceImplementation="com.pino.intellijcodetrace.settings.CodeTraceSettingsState"/>
+        <applicationConfigurable parentId="tools" 
+                                 instance="com.pino.intellijcodetrace.settings.CodeTraceSettingsConfigurable"
+                                 id="com.pino.intellijcodetrace.settings.CodeTraceSettingsConfigurable" 
+                                 displayName="Code Trace"/>
     </extensions>
     <actions>
         <group id="CodeTraceActionGroup"

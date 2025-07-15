@@ -27,7 +27,7 @@ public class CodeTraceSettingsState implements PersistentStateComponent<CodeTrac
     public boolean includePosition = true;
 
     // Output options
-    public String fileNamePrefix = "code-trace";
+    public String fileNamePrefix = "code-trace-";
 
     public static CodeTraceSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(CodeTraceSettingsState.class);

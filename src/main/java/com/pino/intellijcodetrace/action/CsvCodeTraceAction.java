@@ -107,13 +107,13 @@ public class CsvCodeTraceAction extends BaseCodeTraceAction {
             values.add(toSafeCsvString(method.getMethodName()));
         }
         if (settings.includeAccessLevel) {
-            values.add(toSafeCsvString(""));  // Access level not available yet
+            values.add(toSafeCsvString(method.getAccessLevel()));
         }
         if (settings.includeReturnType) {
-            values.add(toSafeCsvString(""));  // Return type not available yet
+            values.add(toSafeCsvString(method.getReturnType()));
         }
         if (settings.includePosition) {
-            values.add(toSafeCsvString(""));  // Position not available yet
+            values.add(toSafeCsvString(method.getPosition()));
         }
     }
 

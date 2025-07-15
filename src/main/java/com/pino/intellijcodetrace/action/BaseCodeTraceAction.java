@@ -122,11 +122,18 @@ public abstract class BaseCodeTraceAction extends AnAction {
     private Method toMethod(PsiMethod psiMethod) {
         var methodSignature = PsiMethodUtils.getMethodSignature(psiMethod);
         var callerClazz = psiMethod.getContainingClass();
+        var accessLevel = PsiMethodUtils.getAccessLevel(psiMethod);
+        var returnType = PsiMethodUtils.getReturnType(psiMethod);
+        var position = PsiMethodUtils.getPosition(psiMethod);
+
         return Method.builder()
                 .classQualifiedName(callerClazz.getQualifiedName())
                 .className(callerClazz.getName())
                 .methodSignature(methodSignature)
                 .methodName(psiMethod.getName())
+                .accessLevel(accessLevel)
+                .returnType(returnType)
+                .position(position)
                 .build();
     }
 

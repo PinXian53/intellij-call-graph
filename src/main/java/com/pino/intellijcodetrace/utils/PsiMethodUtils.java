@@ -2,9 +2,7 @@ package com.pino.intellijcodetrace.utils;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiJavaFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.PsiMethod;
+import com.intellij.psi.*;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
 
@@ -30,6 +28,40 @@ public class PsiMethodUtils {
                 })
                 .collect(Collectors.joining(", "));
         return methodName + "(" + params + ")";
+    }
+
+    public static String getAccessLevel(PsiMethod psiMethod) {
+        if (psiMethod.hasModifierProperty(PsiModifier.PUBLIC)) {
+            return "public";
+        } else if (psiMethod.hasModifierProperty(PsiModifier.PROTECTED)) {
+            return "protected";
+        } else if (psiMethod.hasModifierProperty(PsiModifier.PRIVATE)) {
+            return "private";
+        } else {
+            return "package";
+        }
+    }
+
+    public static String getReturnType(PsiMethod psiMethod) {
+        return psiMethod.getReturnType() != null
+                ? psiMethod.getReturnType().getPresentableText()
+                : "";
+    }
+
+    public static String getPosition(PsiMethod psiMethod) {
+        if (psiMethod.getContainingFile() == null) {
+            return "";
+        }
+
+        var document = PsiDocumentManager.getInstance(psiMethod.getProject()).getDocument(psiMethod.getContainingFile());
+        if (document == null) {
+            return "";
+        }
+
+        var fileName = psiMethod.getContainingFile().getVirtualFile().getName();
+        var offset = psiMethod.getTextOffset();
+        var lineNumber = document.getLineNumber(offset);
+        return fileName + ":" + lineNumber;
     }
 
     public static List<PsiMethod> findAllMethods(Project project, VirtualFile virtualFile) {

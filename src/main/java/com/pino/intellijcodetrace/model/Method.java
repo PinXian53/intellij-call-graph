@@ -10,4 +10,7 @@ public class Method {
     private String className;
     private String methodSignature;
     private String methodName;
+    private String accessLevel;
+    private String returnType;
+    private String position;
 }

@@ -58,7 +58,7 @@ public class CodeTraceSettingsComponent {
         traceOptionsPanel.add(createCheckboxWithTooltip(includeMethodNameCheckBox, "e.g., sampleMethod"));
         traceOptionsPanel.add(createCheckboxWithTooltip(includeAccessLevelCheckBox, "e.g., public"));
         traceOptionsPanel.add(createCheckboxWithTooltip(includeReturnTypeCheckBox, "e.g., void"));
-        traceOptionsPanel.add(createCheckboxWithTooltip(includePositionCheckBox, "e.g., com/example/SampleClass.java:42"));
+        traceOptionsPanel.add(createCheckboxWithTooltip(includePositionCheckBox, "e.g., SampleClass.java:42"));
 
         // Set default values
         includeFullNameCheckBox.setSelected(true);

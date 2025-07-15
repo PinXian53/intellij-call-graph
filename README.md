@@ -32,6 +32,9 @@ Generate Cypher queries to import method relationships into a Neo4j graph databa
 ### ⚙️ Simple to Use
 In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Code Trace"</b>. Then, select your preferred output format.
 
+### 🛠️ Customizable
+Under <b>Settings > Tools > Code Trace</b>, users can configure which data fields to include in the export, as well as define the output file name.
+
 ## Output Format Examples
 The plugin supports exporting method relationships in two formats: CSV and Cypher.
 
@@ -54,3 +57,6 @@ The Cypher output includes syntax to create relationships in Neo4j. <br/>
 
 After importing into Neo4j, the method call relationships will appear as shown below: <br/>
 ![neo4j.png](pic%2Fneo4j.png)
+
+## 🛠️ Settings
+![settings.png](pic/settings.png)

@@ -30,6 +30,9 @@ Generate Cypher queries to import method relationships into a Neo4j graph databa
 <h3>⚙️ Simple to Use</h3>
 In the <b>Project View</b>, select the folder or file you want to analyze, right-click, and choose <b>"Export Code Trace"</b>. Then, select your preferred output format.
 
+<h3>🛠️ Customizable</h3>
+Under <b>Settings > Tools > Code Trace</b>, users can configure which data fields to include in the export, as well as define the output file name.
+
 
 <h2>Output Format Examples</h2>
 The plugin supports exporting method relationships in two formats: CSV and Cypher.
@@ -53,6 +56,9 @@ MERGE (a:method {short_name: "MethodUtils.getShortName", full_name: "com.pino.in
 
 After importing into Neo4j, the method call relationships will appear as shown below: <br/>
 <img src="https://raw.githubusercontent.com/PinXian53/intellij-code-trace/main/pic/neo4j.png" alt="neo4j.png" />
+
+<h2>Settings</h2>
+<img src="https://raw.githubusercontent.com/PinXian53/intellij-code-trace/main/pic/settings.png" alt="settings.png" />
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.

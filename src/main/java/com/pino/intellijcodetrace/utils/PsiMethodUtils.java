@@ -60,6 +60,10 @@ public class PsiMethodUtils {
 
         var fileName = psiMethod.getContainingFile().getVirtualFile().getName();
         var offset = psiMethod.getTextOffset();
+        if (offset < 0) {
+            return "";
+        }
+
         var lineNumber = document.getLineNumber(offset) + 1;
         return fileName + ":" + lineNumber;
     }

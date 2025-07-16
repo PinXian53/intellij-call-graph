@@ -18,6 +18,11 @@
 
 <b>Intellij Code Trace</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships. 
 It helps developers and architects better understand the structure and dependencies within their codebase.
+<br>
+![demo.gif](pic/demo.gif)
+<br>
+(📝Note: Execution time may vary based on the number of selected files and the complexity of the project. Larger selections or more complex codebases may result in longer processing times.)
+
 
 ## Features
 ### 🔗 Analyze Method Call Relationships

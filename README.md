@@ -21,8 +21,7 @@ It helps developers and architects better understand the structure and dependenc
 <br>
 ![demo.gif](pic/demo.gif)
 <br>
-(📝Note: Execution time may vary based on the number of selected files and the complexity of the project. Larger selections or more complex codebases may result in longer processing times.)
-
+(📝Note: <u>Execution time may vary based on the number of selected files and the complexity of the project. Larger selections or more complex codebases may result in longer processing times.</u>)
 
 ## Features
 ### 🔗 Analyze Method Call Relationships

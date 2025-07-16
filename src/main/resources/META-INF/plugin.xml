@@ -15,7 +15,8 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
 <b>Code Trace</b> is an IntelliJ IDEA plugin that analyzes your project’s source code and extracts method-to-method call relationships.
-It helps developers and architects better understand the structure and dependencies within their codebase.
+It helps developers and architects better understand the structure and dependencies within their codebase. <br>
+(📝Note: Execution time may vary based on the number of selected files and the complexity of the project. Larger selections or more complex codebases may result in longer processing times.)
 
 <h2>Features</h2>
 <h3>🔗 Analyze Method Call Relationships</h3>
